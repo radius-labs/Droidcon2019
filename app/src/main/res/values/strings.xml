@@ -2,4 +2,10 @@
     <string name="app_name">droidconke</string>
     <string name="account_name">Account name</string>
     <string name="check">Check</string>
+    <string name="transfer">transfer</string>
+    <string name="receiver_account_name">receiver account name</string>
+    <string name="transfer_amount">transfer amount</string>
+    <string name="memo">memo</string>
+    <string name="private_key">private key</string>
+    <string name="sender_account_name">sender account name</string>
 </resources>

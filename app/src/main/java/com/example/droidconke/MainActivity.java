@@ -17,10 +17,18 @@ public class MainActivity extends AppCompatActivity {
     TextView info;
     EditText accountName;
     Button checkBalance;
+    Button transfer;
     String nodeUrl = "https://jovial-poitras.api.dfuse.dev/";
 
-    List<String> logs = new ArrayList<>();
+//    TextView fromAccount;
+//    TextView toAccount;
+//    TextView privateKey;
+//    TextView amount;
+//    TextView memo;
 
+
+
+    List<String> logs = new ArrayList<>();
 
 
     @Override
@@ -32,14 +40,25 @@ public class MainActivity extends AppCompatActivity {
         info = (TextView) findViewById(R.id.info);
         accountName = (EditText) findViewById(R.id.account_name);
         checkBalance = (Button) findViewById(R.id.check);
+        transfer = (Button) findViewById(R.id.transfer);
 
-        // function to when the button is clicked
+
+        // function to be executed when the check button is clicked
         this.checkBalance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkBalance(nodeUrl);
             }
         });
+
+        // function to be executed when the transfer button is clicked
+        this.transfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transact(nodeUrl);
+            }
+        });
+
     }
 
     private void update() {
@@ -80,6 +99,38 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).execute(nodeUrl, account);
+    }
+
+    private void transact(final String nodeUrl) {
+        // Collecting necessary data to send transaction
+
+        final String fromAccount = ((EditText) this.findViewById(R.id.sender_account_name)).getText().toString();
+        final String toAccount = ((EditText) this.findViewById(R.id.receiver_account_name)).getText().toString();
+        final String privateKey = ((EditText) this.findViewById(R.id.private_key)).getText().toString();
+        final String amount = ((EditText) this.findViewById(R.id.amount)).getText().toString();
+        final String memo = ((EditText) this.findViewById(R.id.memo)).getText().toString();
+
+        this.transfer.setEnabled(false);
+        new TransactionTask(new TransactionTask.TransactionTaskCallback() {
+            @Override
+            public void update(String updateContent) {
+                logs.add("<p>" + updateContent + "</p>");
+                MainActivity.this.update();
+            }
+
+            @Override
+            public void finish(boolean success, String updateContent) {
+                String message = success ? htmlSuccessFormat(updateContent) : htmlErrorFormat(updateContent);
+                message += "<p/>";
+                logs.add(message);
+                MainActivity.this.update();
+                transfer.setEnabled(true);
+
+                if (success) {
+                    checkBalance(nodeUrl);
+                }
+            }
+        }).execute(nodeUrl, fromAccount, toAccount, privateKey, amount, memo);
     }
 
 
