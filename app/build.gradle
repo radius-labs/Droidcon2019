@@ -17,6 +17,17 @@ android {
             manifestPlaceholders = [usesCleartextTraffic:"true"]
         }
     }
+    // Needed to get bitcoin-j to produce a valid apk for android.
+    packagingOptions {
+        exclude 'lib/x86_64/darwin/libscrypt.dylib'
+        exclude 'lib/x86_64/freebsd/libscrypt.so'
+        exclude 'lib/x86_64/linux/libscrypt.so'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
@@ -28,7 +39,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
     implementation 'one.block:eosiojava:0.1.0'
-    implementation 'one.block:eosiojavasoftkeysignatureprovider:0.1.0'
+    implementation 'one.block:eosiojavasoftkeysignatureprovider:0.1.1'
     implementation 'one.block:eosiojavaandroidabieosserializationprovider:0.1.0'
-    implementation 'one.block:eosiojavarpcprovider:0.1.0'
+    implementation 'one.block:eosiojavarpcprovider:0.1.1'
 }

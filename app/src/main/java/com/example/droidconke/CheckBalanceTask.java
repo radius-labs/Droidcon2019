@@ -13,7 +13,6 @@ import one.block.eosiojavarpcprovider.implementations.EosioJavaRpcProviderImpl;
 
 public class CheckBalanceTask extends AsyncTask<String, String, Void> {
 
-
     /**
      * Whether the network logs will be enabled for RPC provider
      */
@@ -55,7 +54,7 @@ public class CheckBalanceTask extends AsyncTask<String, String, Void> {
         EosioJavaRpcProviderImpl rpcProvider;
         try {
             this.publishProgress("Checking Account Balance...");
-            rpcProvider = new EosioJavaRpcProviderImpl(nodeUrl);
+            rpcProvider = new EosioJavaRpcProviderImpl(nodeUrl, ENABLE_NETWORK_LOG);
             String getCurrentBalanceRequestJSON = "{\n" +
                     "\t\"code\" : \"eosio.token\"\n" +
                     "\t\"account\" : \"" + fromAccount + "\"\n" +

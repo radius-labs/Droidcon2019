@@ -2,10 +2,11 @@ package com.example.droidconke;
 
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import java.util.Collections;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import one.block.eosiojava.error.serializationProvider.SerializationProviderError;
 import one.block.eosiojava.error.session.TransactionPrepareError;
 import one.block.eosiojava.error.session.TransactionSignAndBroadCastError;
@@ -100,7 +101,7 @@ public class TransactionTask extends AsyncTask<String, String, Void> {
         // Creating RPC Provider
         IRPCProvider rpcProvider;
         try {
-            rpcProvider = new EosioJavaRpcProviderImpl(nodeUrl);
+            rpcProvider = new EosioJavaRpcProviderImpl(nodeUrl, ENABLE_NETWORK_LOG);
         } catch (EosioJavaRpcProviderInitializerError eosioJavaRpcProviderInitializerError) {
             eosioJavaRpcProviderInitializerError.printStackTrace();
             this.publishProgress(Boolean.toString(false), eosioJavaRpcProviderInitializerError.getMessage());
